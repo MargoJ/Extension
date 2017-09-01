@@ -25,10 +25,10 @@ let MargoJ = {
             for (let i in response)
             {
                 let server = response[i];
-                list.innerHTML += "<li><a href='#' id='connect-" + i + "'>" + server.name + "</a></li>";
+                list.innerHTML += "<tr id='connect-" + i + "' style='cursor: pointer'><td>" + server.name + "</td></tr>";
             }
 
-            for(let i in response)
+            for (let i in response)
             {
                 let server = response[i];
                 document.getElementById("connect-" + i).onclick = function () {
@@ -39,8 +39,69 @@ let MargoJ = {
 
     },
 
+    "updateLastPlayed": function () {
+        let last = document.getElementById("last");
+
+        last.innerHTML = "<tr><td>Ładowanie... proszę czekać</td></tr>";
+
+        MargoJ.getSettings(["last_played"], function (result) {
+            if (typeof result["last_played"] !== "string" || result["last_played"] === "")
+            {
+                last.innerHTML = "<tr><td>Brak...</td></tr>";
+                return
+            }
+
+            last.innerHTML = "";
+
+            let split = result["last_played"].split(";");
+
+            for (let i = 0; i < split.length; i += 2)
+            {
+                last.innerHTML += "<tr><td id='connect-last-" + i + "' style='cursor: pointer'>" + split[i] + "</td></tr>";
+            }
+
+            for (let i = 0; i < split.length; i += 2)
+            {
+                document.getElementById("connect-last-" + i).onclick = function () {
+                    MargoJ.connect(split[i], split[i + 1]);
+                }
+            }
+        })
+    },
+
+    "updateRecent": function (name, url) {
+        MargoJ.getSettings(["last_played"], function (result) {
+            let split = (result["last_played"] || "").split(";");
+            if(split.length === 1)
+            {
+                split = [];
+            }
+
+            for(let i = 0 ; i < split.length ; i+=2)
+            {
+                if(split[i] === name)
+                {
+                    split.splice(i, 2);
+                    break
+                }
+            }
+
+            split.unshift(name, url);
+
+            if (split.length / 2 > 10)
+            {
+                split.pop();
+                split.pop();
+            }
+
+            MargoJ.setSettings({"last_played": split.join(";")});
+            MargoJ.updateLastPlayed();
+        })
+    },
+
     "connect": function (name, url) {
         MargoJ.setSettings({"connected": true, "current-server-name": name, "current-server-url": url});
+        MargoJ.updateRecent(name, url);
         MargoJ.broadcastUpdate();
         MargoJ.updatePopup()
     },
@@ -79,6 +140,14 @@ let MargoJ = {
             MargoJ.disconnect();
         };
 
+        let ipElement = document.getElementById("custom_ip");
+
+        document.getElementById("connect_custom").onsubmit = function () {
+            let ip = ipElement.value;
+            MargoJ.connect(ip, ip);
+        };
+
+        MargoJ.updateLastPlayed();
         MargoJ.updatePopup();
     }
 };

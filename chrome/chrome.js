@@ -1,4 +1,5 @@
 MargoJ.setSettings = function (object) {
+    console.log(object);
     chrome.storage.local.set(object);
 };
 

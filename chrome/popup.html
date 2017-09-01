@@ -1,34 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
+
     <head>
         <meta charset="UTF-8">
 
         <title>MargoJ</title>
         <link rel="stylesheet" type="text/css" href="style.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     </head>
+
     <body>
         <div id="loading">
-            Ładowanie...
+            <svg width="135" height="60" viewBox="0 0 100 60">
+                <rect x="0" y="0" width="10" height="60" rx="6">
+                    <animate attributeType="CSS" attributeName="height" values="60;20;60;" begin='0s' dur="1s"
+                             repeatCount="indefinite"></animate>
+                    <animate attributeType="CSS" attributeName="y" begin='0s' values="0;20;0;" dur="1s"
+                             repeatCount="indefinite"></animate>
+                </rect>
+                <rect x="20" y="0" width="10" height="60" rx="6">
+                    <animate attributeType="CSS" attributeName="height" values="60;20;60" begin='0.2s' dur="1s"
+                             repeatCount="indefinite"></animate>
+                    <animate attributeType="CSS" attributeName="y" values="0;20;0" begin='0.2s' dur="1s"
+                             repeatCount="indefinite"></animate>
+                </rect>
+                <rect x="40" y="0" width="10" height="60" rx="6">
+                    <animate attributeType="CSS" attributeName="height" values="60;20;60" begin='0.4s' dur="1s"
+                             repeatCount="indefinite"></animate>
+                    <animate attributeType="CSS" attributeName="y" values="0;20;0" begin='0.4s' dur="1s"
+                             repeatCount="indefinite"></animate>
+                </rect>
+                <rect x="60" y="0" width="10" height="60" rx="6">
+                    <animate attributeType="CSS" attributeName="height" values="60;20;60" begin='0.6s' dur="1s"
+                             repeatCount="indefinite"></animate>
+                    <animate attributeType="CSS" attributeName="y" values="0;20;0" begin='0.6s' dur="1s"
+                             repeatCount="indefinite"></animate>
+                </rect>
+                <rect x="80" y="0" width="10" height="60" rx="6">
+                    <animate attributeType="CSS" attributeName="height" values="60;20;60" begin='0.8s' dur="1s"
+                             repeatCount="indefinite"></animate>
+                    <animate attributeType="CSS" attributeName="y" values="0;20;0" begin='0.8s' dur="1s"
+                             repeatCount="indefinite"></animate>
+                </rect>
+            </svg>
         </div>
 
         <div id="connected" style="display: none">
-            <center>Jesteś aktualnie połączony!</center>
-            <hr>
-            Serwer: <span id="current_server_id"></span>
-            <hr>
-            <a href="#" id="start_game">Przejdź do gry!</a><br>
-            <a href="#" id="disconnect">Rozłącz</a>
+            <div style="padding: 100px 50px 10px 50px">
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" viewBox="0 0 49.833 49.833" style="enable-background:new 0 0 49.833 49.833;" xml:space="preserve" width="100px" height="100px">
+                    <path d="M49.833,24.917c0,13.739-11.178,24.917-24.916,24.917c-0.828,0-1.5-0.671-1.5-1.5V36.259  c-5.606-0.739-9.952-5.537-9.952-11.342c0-0.829,0.672-1.5,1.5-1.5h3.073V13.94c0-0.829,0.672-1.5,1.5-1.5  c0.828,0,1.5,0.671,1.5,1.5v9.477h7.757V13.94c0-0.829,0.672-1.5,1.5-1.5c0.828,0,1.5,0.671,1.5,1.5v9.477h3.074  c0.828,0,1.5,0.671,1.5,1.5c0,5.805-4.346,10.603-9.952,11.342v10.524c11.388-0.773,20.416-10.285,20.416-21.866  C46.833,12.832,37.002,3,24.917,3C12.832,3,3,12.832,3,24.917c0,4.599,1.408,9,4.071,12.727c0.481,0.674,0.325,1.611-0.349,2.092  c-0.675,0.482-1.611,0.326-2.093-0.348C1.602,35.148,0,30.145,0,24.917C0,11.178,11.178,0,24.917,0  C38.655,0,49.833,11.178,49.833,24.917z" fill="#FFFFFF" ></path>
+                </svg>
+            </div>
+
+            <div style="padding: 30px 50px 50px 50px">
+                Połączono z: <span id="current_server_id"></span>
+            </div>
+
+            <div style="padding: 30px">
+                <button id="start_game" class="btn" style="display: inline-block; width: 45%;">Przejdź do gry</button>
+                <div style="display: inline-block; width: 5%;"></div>
+                <button id="disconnect" class="btn" style="display: inline-block; width: 45%">Rozłącz</button>
+            </div>
         </div>
 
         <div id="list" style="display: none">
-            Lista oficjalnych serwerow:
-            <hr>
-            <ul id="official">
-                <li>Ładowanie... proszę czekać</li>
-            </ul>
+            <h3>Oficjalne serwery</h3>
+            <table id="official">
+            </table>
 
-            <script type="application/javascript" src="margoj.js"></script>
-            <script type="application/javascript" src="chrome.js"></script>
+            <h3 style="">Ostatnio grane</h3>
+            <table id="last">
+            </table>
+
+            <h3>Inny serwer</h3>
+
+            <form id="connect_custom" style="margin-bottom: 20px">
+                <input type="text" class="connect-input" id="custom_ip" placeholder="Adres serwera..">
+                <input type="submit" class="connect-submit" value="Połącz" style="margin-left: -6px; padding: 10px; border: 1px solid; border-color: gray;">
+            </form>
+
         </div>
+
+        <script type="application/javascript" src="margoj.js"></script>
+        <script type="application/javascript" src="chrome.js"></script>
     </body>
+
 </html>

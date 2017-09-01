@@ -1,0 +1,32 @@
+{
+  "manifest_version": 2,
+  "name": "MargoJ",
+  "description": "Oficjalny dodatek MargoJ do przeglądarki Chrome",
+  "version": "1.0",
+  "browser_action": {
+    "default_icon": "icon.png",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "icon.png"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "webRequest",
+    "webRequestBlocking",
+    "<all_urls>"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["http://game1.margonem.pl/"],
+      "js": ["modify.js"],
+      "run_at": "document_end"
+    }
+  ],
+  "background": {
+    "scripts": [
+      "background_chrome.js"
+    ]
+  }
+}

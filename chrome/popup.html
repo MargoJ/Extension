@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+
+        <title>MargoJ</title>
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head>
+    <body>
+        <div id="loading">
+            Ładowanie...
+        </div>
+
+        <div id="connected" style="display: none">
+            <center>Jesteś aktualnie połączony!</center>
+            <hr>
+            Serwer: <span id="current_server_id"></span>
+            <hr>
+            <a href="#" id="start_game">Przejdź do gry!</a><br>
+            <a href="#" id="disconnect">Rozłącz</a>
+        </div>
+
+        <div id="list" style="display: none">
+            Lista oficjalnych serwerow:
+            <hr>
+            <ul id="official">
+                <li>Ładowanie... proszę czekać</li>
+            </ul>
+
+            <script type="application/javascript" src="margoj.js"></script>
+            <script type="application/javascript" src="chrome.js"></script>
+        </div>
+    </body>
+</html>

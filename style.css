@@ -35,7 +35,7 @@ h3 {
 
 #update > div > a {
     display: block;
-    text-decoration: underline;
+    text-decoration: none;
     color: white;
 }
 

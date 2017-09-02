@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
   "name": "MargoJ",
-  "description": "Oficjalny dodatek MargoJ do przeglądarki Chrome",
-  "version": "1.0",
+  "description": "Oficjalny dodatek MargoJ do przeglądarki Chrome i Firefox",
+  "version": "1.0.0",
   "browser_action": {
     "default_icon": "icon.png",
     "default_popup": "popup.html"
@@ -26,7 +26,7 @@
   ],
   "background": {
     "scripts": [
-      "background_chrome.js"
+      "background.js"
     ]
   }
 }

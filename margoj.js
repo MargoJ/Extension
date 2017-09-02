@@ -1,5 +1,8 @@
 let MargoJ = {
+    "_currentVersion": "1.0.0",
+
     "_masterServer": "https://margoj.pl/masterserver",
+    "_updateUrl": "https://margoj.pl/extension/latest",
 
     "loadOfficialServers": function (callback) {
         let serverIndex = MargoJ._masterServer + "/index?" + new Date().getTime();
@@ -10,7 +13,6 @@ let MargoJ = {
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4)
             {
-                console.log(xhr.responseText);
                 callback(JSON.parse(xhr.responseText))
             }
         };
@@ -72,14 +74,14 @@ let MargoJ = {
     "updateRecent": function (name, url) {
         MargoJ.getSettings(["last_played"], function (result) {
             let split = (result["last_played"] || "").split(";");
-            if(split.length === 1)
+            if (split.length === 1)
             {
                 split = [];
             }
 
-            for(let i = 0 ; i < split.length ; i+=2)
+            for (let i = 0; i < split.length; i += 2)
             {
-                if(split[i] === name)
+                if (split[i] === name)
                 {
                     split.splice(i, 2);
                     break
@@ -131,7 +133,39 @@ let MargoJ = {
         });
     },
 
+    "checkUpdate": function () {
+        let xhr = new XMLHttpRequest();
+        xhr.open("GET", MargoJ._updateUrl, true);
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4)
+            {
+                if (MargoJ._currentVersion === xhr.responseText.trim())
+                {
+                    MargoJ.init();
+                }
+                else
+                {
+                    document.getElementById("update").style.display = "table";
+
+                    document.getElementById("update_download").onclick = function () {
+                        MargoJ.openTab("https://margoj.pl/extension/")
+                    };
+
+                    document.getElementById("update_skip").onclick = function () {
+                        document.getElementById("update").style.display = "none";
+                        MargoJ.init();
+                    };
+                }
+            }
+        };
+
+        xhr.send();
+    },
+
     "init": function () {
+        document.getElementById("loading").style.display = "block";
+
         document.getElementById("start_game").onclick = function () {
             MargoJ.openTab("http://game1.margonem.pl/")
         };
@@ -149,5 +183,26 @@ let MargoJ = {
 
         MargoJ.updateLastPlayed();
         MargoJ.updatePopup();
+    },
+
+    "setSettings": function (object) {
+        chrome.storage.local.set(object);
+    },
+
+    "getSettings": function (values, callback) {
+        chrome.storage.local.get(values, callback);
+    },
+
+    "openTab": function (url) {
+        chrome.tabs.create({url: url});
+    },
+
+    "broadcastUpdate": function () {
+        chrome.runtime.sendMessage({
+            type: "update_data"
+        });
     }
 };
+
+
+MargoJ.checkUpdate();

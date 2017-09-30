@@ -1,5 +1,5 @@
 let MargoJ = {
-    "_currentVersion": "1.0.0",
+    "_currentVersion": "1.0.1",
 
     "_masterServer": "https://margoj.pl/masterserver",
     "_updateUrl": "https://margoj.pl/extension/latest",
@@ -27,14 +27,14 @@ let MargoJ = {
             for (let i in response)
             {
                 let server = response[i];
-                list.innerHTML += "<tr id='connect-" + i + "' style='cursor: pointer'><td>" + server.name + "</td></tr>";
+                list.innerHTML += "<tr id='go-" + i + "' style='cursor: pointer'><td>" + server.name + "</td></tr>";
             }
 
             for (let i in response)
             {
                 let server = response[i];
-                document.getElementById("connect-" + i).onclick = function () {
-                    MargoJ.connect(server.name, server.url);
+                document.getElementById("go-" + i).onclick = function () {
+                    MargoJ.openTab(server.url);
                 }
             }
         })
@@ -135,7 +135,7 @@ let MargoJ = {
 
     "checkUpdate": function () {
         let xhr = new XMLHttpRequest();
-        xhr.open("GET", MargoJ._updateUrl, true);
+        xhr.open("GET", MargoJ._updateUrl + "?" + new Date().getTime(), true);
 
         xhr.onreadystatechange = function () {
             if (xhr.readyState === 4)

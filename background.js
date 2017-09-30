@@ -31,6 +31,20 @@
                 __reloadData();
                 break
             }
+            case "connect":
+            {
+                if(typeof sender.tab !== "undefined" && typeof sender.tab.id !== "undefined")
+                {
+                    chrome.tabs.remove(sender.tab.id);
+                }
+
+                chrome.storage.local.set({"connected": true, "current-server-name": request["server-name"], "current-server-url": request["server-url"]}, function () {
+                    __reloadData();
+                    chrome.tabs.create({url: "http://game1.margonem.pl/"});
+                });
+
+                break;
+            }
         }
     });
 
